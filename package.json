@@ -1,0 +1,18 @@
+{
+  "name": "svg-placer-pdfmaker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vladislav Trofimenko <slashcooperlive@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.0",
+    "jspm": "^3.1.2",
+    "pdfmake": "^0.2.8",
+    "svgo": "3.0.0"
+  }
+}
