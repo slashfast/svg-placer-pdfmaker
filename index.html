@@ -3,341 +3,54 @@
   <head>
     <meta charset="utf-8" />
     <title>svg2pdf</title>
-    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js" crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js"
+      crossorigin="anonymous"
+    ></script>
     <script type="importmap">
-    {
-      "imports": {
-        "@svgdotjs/svg.js": "https://ga.jspm.io/npm:@svgdotjs/svg.js@3.2.0/dist/svg.esm.js",
-        "pdfmake": "https://ga.jspm.io/npm:pdfmake@0.2.8/build/pdfmake.js",
-        "svgo": "https://ga.jspm.io/npm:svgo@3.0.0/lib/svgo-node.js"
-      },
-      "scopes": {
-        "https://ga.jspm.io/": {
-          "#cjs/data.cjs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
-          "#cjs/version.cjs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
-          "#lib/data.js": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
-          "#lib/version.js": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
-          "@trysound/sax": "https://ga.jspm.io/npm:@trysound/sax@0.2.0/lib/sax.js",
-          "boolbase": "https://ga.jspm.io/npm:boolbase@1.0.0/index.js",
-          "buffer": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/buffer.js",
-          "css-select": "https://ga.jspm.io/npm:css-select@5.1.0/lib/index.js",
-          "css-tree": "https://ga.jspm.io/npm:css-tree@2.3.1/cjs/index.cjs",
-          "css-what": "https://ga.jspm.io/npm:css-what@6.1.0/lib/es/index.js",
-          "csso": "https://ga.jspm.io/npm:csso@5.0.5/cjs/index.cjs",
-          "dom-serializer": "https://ga.jspm.io/npm:dom-serializer@2.0.0/lib/index.js",
-          "domelementtype": "https://ga.jspm.io/npm:domelementtype@2.3.0/lib/index.js",
-          "domhandler": "https://ga.jspm.io/npm:domhandler@5.0.3/lib/index.js",
-          "domutils": "https://ga.jspm.io/npm:domutils@3.1.0/lib/index.js",
-          "entities": "https://ga.jspm.io/npm:entities@4.5.0/lib/index.js",
-          "fs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/fs.js",
-          "nth-check": "https://ga.jspm.io/npm:nth-check@2.1.1/lib/index.js",
-          "os": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/os.js",
-          "path": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/path.js",
-          "process": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/process.js",
-          "source-map-js/lib/source-map-generator.js": "https://ga.jspm.io/npm:source-map-js@1.0.2/lib/source-map-generator.js",
-          "url": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/url.js"
+      {
+        "imports": {
+          "@svgdotjs/svg.js": "https://ga.jspm.io/npm:@svgdotjs/svg.js@3.2.0/dist/svg.esm.js",
+          "pdfmake": "https://ga.jspm.io/npm:pdfmake@0.2.8/build/pdfmake.js",
+          "svgo": "https://ga.jspm.io/npm:svgo@3.0.0/lib/svgo-node.js"
         },
-        "https://ga.jspm.io/npm:csso@5.0.5/": {
-          "css-tree": "https://ga.jspm.io/npm:css-tree@2.2.1/cjs/index.cjs"
-        },
-        "https://ga.jspm.io/npm:csso@5.0.5/_/653c657c.js": {
-          "css-tree": "https://ga.jspm.io/npm:css-tree@2.2.1/lib/index.js"
-        }
-      }
-    }
-    </script>
-    <script type="module">
-      import pdfMake from "pdfmake";
-      import { optimize } from "svgo";
-      import { SVG } from "@svgdotjs/svg.js";
-      pdfMake.fonts = {
-        // NotoSans: {
-        //     normal: 'https://cdn.statically.io/gh/slashfast/noto-math/main/NotoSansMath-Regular.ttf',
-        //     bold: 'https://cdn.statically.io/gh/slashfast/noto-math/main/NotoSansMath-Medium.ttf',
-        //     italics: 'https://cdn.statically.io/gh/slashfast/noto-math/main/NotoSansMath-Italic.ttf',
-        //     bolditalics: 'https://cdn.statically.io/gh/slashfast/noto-math/main/NotoSansMath-ItalicMedium.ttf'
-        // },
-        // Roboto: {
-        //     normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/fonts/Roboto/Roboto-Regular.ttf',
-        //     bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/fonts/Roboto/Roboto-Medium.ttf',
-        //     italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/fonts/Roboto/Roboto-Italic.ttf',
-        //     bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/fonts/Roboto/Roboto-MediumItalic.ttf'
-        // },
-        FiraSans: {
-          normal:
-            "http://fonts.gstatic.com/s/firasans/v17/va9E4kDNxMZdWfMOD5VfkILKSTbndQ.ttf",
-          bold: "http://fonts.gstatic.com/s/firasans/v17/va9B4kDNxMZdWfMOD5VnZKvuQR37fF3Wlg.ttf",
-          italics:
-            "http://fonts.gstatic.com/s/firasans/v17/va9C4kDNxMZdWfMOD5VvkojOazP3dUTP.ttf",
-          bolditalics:
-            "http://fonts.gstatic.com/s/firasans/v17/va9f4kDNxMZdWfMOD5VvkrA6Qhf_XljGllLX.ttf",
-        },
-      };
-
-      function mmToPt(size) {
-        return size * 2.8346438836889;
-      }
-
-      function pxToPt(size) {
-        return size * 0.75;
-      }
-
-      function genTemplate1(svg) {
-        const maxSize = {
-          x: mmToPt(175),
-          y: mmToPt(175),
-        };
-        const lineWidth = 2;
-        const template1 = [
-          {
-            type: "rect",
-            x: 0,
-            y: 0,
-            w: mmToPt(185),
-            h: mmToPt(287),
-            lineColor: "black",
-            lineWidth: lineWidth,
+        "scopes": {
+          "https://ga.jspm.io/": {
+            "#cjs/data.cjs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
+            "#cjs/version.cjs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
+            "#lib/data.js": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
+            "#lib/version.js": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/@empty.js",
+            "@trysound/sax": "https://ga.jspm.io/npm:@trysound/sax@0.2.0/lib/sax.js",
+            "boolbase": "https://ga.jspm.io/npm:boolbase@1.0.0/index.js",
+            "buffer": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/buffer.js",
+            "css-select": "https://ga.jspm.io/npm:css-select@5.1.0/lib/index.js",
+            "css-tree": "https://ga.jspm.io/npm:css-tree@2.3.1/cjs/index.cjs",
+            "css-what": "https://ga.jspm.io/npm:css-what@6.1.0/lib/es/index.js",
+            "csso": "https://ga.jspm.io/npm:csso@5.0.5/cjs/index.cjs",
+            "dom-serializer": "https://ga.jspm.io/npm:dom-serializer@2.0.0/lib/index.js",
+            "domelementtype": "https://ga.jspm.io/npm:domelementtype@2.3.0/lib/index.js",
+            "domhandler": "https://ga.jspm.io/npm:domhandler@5.0.3/lib/index.js",
+            "domutils": "https://ga.jspm.io/npm:domutils@3.1.0/lib/index.js",
+            "entities": "https://ga.jspm.io/npm:entities@4.5.0/lib/index.js",
+            "fs": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/fs.js",
+            "nth-check": "https://ga.jspm.io/npm:nth-check@2.1.1/lib/index.js",
+            "os": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/os.js",
+            "path": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/path.js",
+            "process": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/process.js",
+            "source-map-js/lib/source-map-generator.js": "https://ga.jspm.io/npm:source-map-js@1.0.2/lib/source-map-generator.js",
+            "url": "https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/url.js"
           },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(247),
-            x2: mmToPt(185),
-            y2: mmToPt(247),
-            lineWidth: lineWidth,
+          "https://ga.jspm.io/npm:csso@5.0.5/": {
+            "css-tree": "https://ga.jspm.io/npm:css-tree@2.2.1/cjs/index.cjs"
           },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(252),
-            x2: mmToPt(65),
-            y2: mmToPt(252),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(257),
-            x2: mmToPt(65),
-            y2: mmToPt(257),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(262),
-            x2: mmToPt(185),
-            y2: mmToPt(262),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(267),
-            x2: mmToPt(65),
-            y2: mmToPt(267),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(135),
-            y1: mmToPt(267),
-            x2: mmToPt(185),
-            y2: mmToPt(267),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(272),
-            x2: mmToPt(65),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(135),
-            y1: mmToPt(272),
-            x2: mmToPt(185),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(277),
-            x2: mmToPt(65),
-            y2: mmToPt(277),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: 0,
-            y1: mmToPt(282),
-            x2: mmToPt(65),
-            y2: mmToPt(282),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(7),
-            y1: mmToPt(247),
-            x2: mmToPt(7),
-            y2: mmToPt(262),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(17),
-            y1: mmToPt(247),
-            x2: mmToPt(17),
-            y2: mmToPt(287),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(40),
-            y1: mmToPt(247),
-            x2: mmToPt(40),
-            y2: mmToPt(287),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(55),
-            y1: mmToPt(247),
-            x2: mmToPt(55),
-            y2: mmToPt(287),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(65),
-            y1: mmToPt(247),
-            x2: mmToPt(65),
-            y2: mmToPt(287),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(135),
-            y1: mmToPt(262),
-            x2: mmToPt(135),
-            y2: mmToPt(287),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(140),
-            y1: mmToPt(267),
-            x2: mmToPt(140),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(145),
-            y1: mmToPt(267),
-            x2: mmToPt(145),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(150),
-            y1: mmToPt(262),
-            x2: mmToPt(150),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-          {
-            type: "line",
-            x1: mmToPt(167),
-            y1: mmToPt(262),
-            x2: mmToPt(167),
-            y2: mmToPt(272),
-            lineWidth: lineWidth,
-          },
-        ];
-        const target = SVG(svg);
-        const box = target.viewbox();
-        let width = target.width();
-        let height = target.height();
-
-        if (width == 0 || height == 0) {
-          width = box.width;
-          height = box.height;
-        }
-
-        const q = height > width ? maxSize.y / height : maxSize.x / width;
-
-        if (box.width < target.width() || box.height < target.height()) {
-          target.scale(q, 0, 0);
-        } else {
-          target.width(width * q);
-          target.height(height * q);
-        }
-
-        return pdfMake.createPdf({
-          pageSize: "A4",
-          pageMargins: [mmToPt(20), mmToPt(5), mmToPt(5), mmToPt(5)],
-          defaultStyle: {
-            font: "FiraSans",
-          },
-          content: [
-            {
-              svg: target.svg(),
-              relativePosition: {
-                x: (mmToPt(185 - 40 - 2.5) - pxToPt(width * q)) / 2,
-                y: (mmToPt(287 - 40 - 20) - pxToPt(height * q)) / 2,
-              },
-            },
-            {
-              canvas: template1,
-            },
-          ],
-        });
-      }
-
-      function loadSVG() {
-        const reader = new FileReader();
-        const file = document.querySelector("input[type=file]").files[0];
-
-        reader.readAsText(file);
-
-        const selectedTemplate =
-          document.getElementById("templateSelect").value;
-        let selectedTemplateGenerator;
-
-        switch (selectedTemplate) {
-          case "template1":
-            selectedTemplateGenerator = genTemplate1;
-        }
-
-        reader.onload = () => {
-          const optimizedSVG = optimize(reader.result, {
-            plugins: [
-              {
-                name: "preset-default",
-                params: {
-                  overrides: {
-                    removeViewBox: false,
-                  },
-                },
-              },
-            ],
-          });
-          try {
-            selectedTemplateGenerator(optimizedSVG.data).open();
-          } catch {
-            console.log(`Not implemented for ${selectedTemplate}`);
+          "https://ga.jspm.io/npm:csso@5.0.5/_/653c657c.js": {
+            "css-tree": "https://ga.jspm.io/npm:css-tree@2.2.1/lib/index.js"
           }
-        };
+        }
       }
-      document
-        .getElementById("input")
-        .addEventListener("change", loadSVG, false);
     </script>
+    <script type="module" src="index.js"></script>
   </head>
 
   <body>
