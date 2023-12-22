@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Vladislav Trofimenko <slashcooperlive@gmail.com>
+// Copyright (c) 2023 Vladislav Trofimenko <foss@slashfast.dev>
 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -19,9 +19,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import pdfMake from "pdfmake";
-import { optimize } from "svgo";
-import { SVG } from "@svgdotjs/svg.js";
+import pdfMake from "https://ga.jspm.io/npm:pdfmake@0.2.8/build/pdfmake.js";
+import { optimize } from "https://ga.jspm.io/npm:svgo@3.0.0/dist/svgo.browser.js";
+import { SVG } from "https://ga.jspm.io/npm:@svgdotjs/svg.js@3.2.0/dist/svg.esm.js";
 pdfMake.fonts = {
   // NotoSans: {
   //     normal: 'https://cdn.statically.io/gh/slashfast/noto-math/main/NotoSansMath-Regular.ttf',
